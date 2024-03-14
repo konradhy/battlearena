@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Textsavvy",
   description:
-    "A tool for content creations who want to standout with their stories. ",
+    "A tool for content creators who want to standout with their stories. ",
   icons: {
     icon: [
       {

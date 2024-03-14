@@ -14,7 +14,10 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
-import type * as authconfig from "../authconfig.js";
+import type * as battle from "../battle.js";
+import type * as generate from "../generate.js";
+import type * as helpers from "../helpers.js";
+import type * as players from "../players.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -25,7 +28,10 @@ import type * as authconfig from "../authconfig.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  authconfig: typeof authconfig;
+  battle: typeof battle;
+  generate: typeof generate;
+  helpers: typeof helpers;
+  players: typeof players;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

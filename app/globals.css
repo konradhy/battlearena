@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 26 36% 100%;
+    --background: 60 5% 96%;
     --foreground: 26 56% 4%;
     --muted: 356 19% 87%;
     --muted-foreground: 356 11% 37%;
@@ -24,10 +24,11 @@
     --destructive-foreground: 9 83% 89%;
     --ring: 26 65% 51%;
     --radius: 0.5rem;
+    --nav-background: 20 5.88% 90%;
   }
 
   .dark {
-    --background: 26 42% 2%;
+    --background: 33 5% 32%;
     --foreground: 26 31% 97%;
     --muted: 356 19% 13%;
     --muted-foreground: 356 11% 63%;
@@ -46,6 +47,7 @@
     --destructive: 9 83% 52%;
     --destructive-foreground: 0 0% 100%;
     --ring: 26 65% 51%;
+    --nav-background: 12 6% 15%;
   }
 }
 

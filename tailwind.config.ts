@@ -23,6 +23,7 @@ const config = {
         sans: ["Inter", ...fontFamily.sans],
       },
       colors: {
+        navBackground: "hsl(var(--nav-background))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

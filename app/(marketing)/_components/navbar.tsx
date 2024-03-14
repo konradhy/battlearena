@@ -20,8 +20,6 @@ export const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const scrolled = useScrollTop();
 
-  const router = useRouter();
-
   return (
     <div
       className={cn(
