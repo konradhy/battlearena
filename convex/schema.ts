@@ -14,6 +14,7 @@ export default defineSchema({
     specialDefense: v.number(),
     experience: v.number(),
     name: v.string(),
+    userId: v.string(),
   }),
 
   battles: defineTable({
@@ -22,14 +23,12 @@ export default defineSchema({
     result: v.string(),
     turn: v.number(),
     inSequence: v.boolean(),
-    playerHealth: v.number(),
-    opponentHealth: v.number(),
-    playerStats: v.optional(v.id("players")),
-    opponentStats: v.optional(v.id("players")),
     announcerMessage: v.string(),
     trivia: v.optional(v.string()),
     triviaResult: v.optional(v.boolean()),
     triviaRationale: v.optional(v.string()),
-    aiBattle: v.optional(v.boolean()),
+    aiBattle: v.boolean(),
+    createdBy: v.string(),
+    challenger: v.optional(v.string()),
   }),
 });

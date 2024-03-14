@@ -1,4 +1,17 @@
 "use client";
+/*
+
+Add the tooltip
+
+
+  THEN
+Button to play against AI
+GameOver to set the gameannoucer to say who won 
+
+`
+
+
+*/
 
 import { use, useEffect, useState } from "react";
 import { File } from "lucide-react";
@@ -36,7 +49,7 @@ export const SearchModal = () => {
   const handleClick = (id: Id<"battles">) => {
     router.push(`/dashboard/${id}`);
     onClose();
-    console.log("clicked");
+
   };
 
   return (
@@ -49,7 +62,7 @@ export const SearchModal = () => {
           {pendingBattles?.map((battle, index) => (
             <CommandItem
               key={battle._id}
-              value={battle.player1 + battle._id}
+              value={battle.createdBy + index + battle.challenger}
               title={battle.player1}
               onSelect={() => handleClick(battle._id)}
    
@@ -58,7 +71,7 @@ export const SearchModal = () => {
               
             >
               <span className="flex justify-between cursor-pointer">
-                {battle.player1}
+                Join {battle.createdBy}&apos;s room
               </span>
             </CommandItem>
           ))}

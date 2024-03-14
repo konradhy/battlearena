@@ -257,7 +257,7 @@ export const setTriviaResult = internalMutation({
   },
 });
 
-//game over sets everyone's health to max health, turn to 0, annoucermessage to undefined, insequence to false
+
 export const gameOver = mutation({
   args: {
     id: v.id("battles"),
@@ -313,6 +313,7 @@ export const createBattle = mutation({
       specialDefense: 10,
       experience: 0,
       name: "Malignant Tiger",
+      userId: identity.subject,
     });
 
     if (!player1) {
@@ -334,6 +335,7 @@ export const createBattle = mutation({
       specialDefense: 10,
       experience: 0,
       name: "Sneaky Snake",
+      userId: "unassigned",
     });
     if (!player2) {
       throw new ConvexError({
@@ -347,8 +349,7 @@ export const createBattle = mutation({
       result: "pending",
       turn: 0,
       inSequence: false,
-      playerHealth: 100,
-      opponentHealth: 100,
+      createdBy: identity.preferredUsername || identity.nickname || identity.givenName || identity.name || identity.email || "Anonymous",
       announcerMessage: "Nothing has happened yet",
       trivia: undefined,
       triviaResult: undefined,
