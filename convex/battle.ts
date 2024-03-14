@@ -355,6 +355,7 @@ export const createBattle = mutation({
       triviaResult: undefined,
       triviaRationale: undefined,
       aiBattle: false,
+      creatorEmail: identity.email || "Anonymous",
     });
 
     return battle;
@@ -377,5 +378,25 @@ export const listBattles = query({
       .collect();
 
     return battles;
+  },
+});
+
+
+export const joinBattle = mutation({
+  args: {
+    id: v.id("battles"),
+    challenger: v.string(),
+  },
+  handler: async (ctx, { id, challenger }) => {
+    const battle = await ctx.db.get(id);
+    if (!battle) {
+      throw new ConvexError({
+        message: "Battle not found",
+        severity: "low",
+      });
+    }
+    battle.challenger = challenger;
+        battle.result = "inProgress";
+    await ctx.db.patch(id, battle);
   },
 });

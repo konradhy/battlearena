@@ -29,6 +29,8 @@ export default defineSchema({
     triviaRationale: v.optional(v.string()),
     aiBattle: v.boolean(),
     createdBy: v.string(),
+    creatorEmail:v.string(),
+
     challenger: v.optional(v.string()),
   }),
 });

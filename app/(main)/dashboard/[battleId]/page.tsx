@@ -13,6 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useTrivia } from "@/hooks/use-trivia";
 import { toast } from "sonner";
+import { JoinBattle } from "../_components/join-battle";
 
 export default function BattlePage() {
   const params = useParams();
@@ -73,6 +74,7 @@ export default function BattlePage() {
 
   //i don't really understand useEffects and WHY we have to include certain things as dependencies. Like why do i need gameover as a dependencies? It's not like i expect the function to change?
 
+ 
   return (
     <div
       className="min-h-screen bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center"
@@ -99,6 +101,8 @@ export default function BattlePage() {
         <BattleAnnouncer
           message={battleDetails?.announcerMessage || "What will happen next?"}
         />
+       
+        <JoinBattle battle={battleDetails} />
 
         <div className="flex flex-col items-center">
           <PlayerDetails player={player2Details} />

@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { ChevronsLeft, GripVertical, MenuIcon, Bot, Sword } from "lucide-react";
+import { ChevronsLeft, GripVertical, MenuIcon, Bot, Sword, Shield } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { NavLink, initialTopLinks } from "./navigation-links";
@@ -169,8 +169,8 @@ export const Navigation = () => {
               links={[
                 {
                   title: "Create Battle",
-                  icon: Bot,
-                  variant: "default",
+                  icon: Shield,
+                  variant: "ghost",
                   onClick: handleCreateBattle,
                 },
                 {

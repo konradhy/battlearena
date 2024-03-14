@@ -32,24 +32,11 @@ export interface NavLink {
 
 export let initialTopLinks: NavLink[] = [
   {
-    title: "Dashboard",
+    title: "Home",
     icon: Home,
     variant: "default",
     link: "/dashboard",
     name: "dashboard",
   },
-  {
-    title: "studio",
-    icon: PenLine,
-    variant: "ghost",
-    link: "/studio",
-    name: "studio",
-  },
-  {
-    title: "Story",
-    icon: ClipboardList,
-    variant: "ghost",
-    link: "/story",
-    name: "story",
-  },
+
 ];
