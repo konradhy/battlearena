@@ -2,7 +2,7 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  players: defineTable({
+  characters: defineTable({
     level: v.number(),
     health: v.number(),
     maxHealth: v.number(),
@@ -15,11 +15,13 @@ export default defineSchema({
     experience: v.number(),
     name: v.string(),
     userId: v.string(),
+    type: v.string(),
+    image:v.string()
   }),
 
   battles: defineTable({
-    player1: v.id("players"),
-    player2: v.id("players"),
+    player1: v.id("characters"),
+    player2: v.id("characters"),
     result: v.string(),
     turn: v.number(),
     inSequence: v.boolean(),
@@ -30,7 +32,6 @@ export default defineSchema({
     aiBattle: v.boolean(),
     createdBy: v.string(),
     creatorEmail:v.string(),
-
     challenger: v.optional(v.string()),
   }),
 });

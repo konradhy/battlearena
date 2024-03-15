@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const appName = "Textsavvy";
+export const appName = "BattleArena Ai";
 
 export function getCurrentFormattedDate(): string {
   const currentDate = new Date();

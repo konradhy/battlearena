@@ -4,13 +4,14 @@ import { ConvexClientProvider } from "@/components/providers/convex-provider";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { appName } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Textsavvy",
+  title: `${appName}`,
   description:
-    "A tool for content creators who want to standout with their stories. ",
+    "Proof of concept for a game that uses Ai. ",
   icons: {
     icon: [
       {
@@ -32,10 +33,10 @@ export default function RootLayout({
         <ConvexClientProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
-            storageKey="textsavvy-theme"
+            storageKey="battle-theme"
           >
             <Toaster position="bottom-center" />
             {children}

@@ -1,22 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+
 import {
-  ChevronsLeft,
-  MenuIcon,
+
   Home,
-  ClipboardList,
-  Folder,
-  NotebookPen,
-  UploadCloud,
-  Bot,
-  Plus,
-  PenLine,
-  GripVertical,
-  HandCoins,
+
+
   LucideIcon,
-  Settings,
-  Mic,
+
 } from "lucide-react";
 
 export interface NavLink {

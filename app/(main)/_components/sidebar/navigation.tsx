@@ -1,4 +1,4 @@
-//add is authenticated here
+
 "use client";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
@@ -14,11 +14,12 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { useSearch } from "@/hooks/use-search";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Navigation = () => {
   const router = useRouter();
   //hooks
-  const pathname = usePathname(); //to collapse sidebar when we navigate to a new document
+  const pathname = usePathname(); 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { isOpen, onClose, onOpen } = useSearch();
 
@@ -144,7 +145,7 @@ export const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full  overflow-y-auto relative flex w-60 flex-col z-[99999]",
+          "group/sidebar h-full  overflow-y-auto relative flex w-60 flex-col z-[99999] ",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "w-0",
         )}
@@ -179,8 +180,12 @@ export const Navigation = () => {
                   variant: "ghost",
                   onClick: onOpen,
                 },
+              
               ]}
             />
+          <div className={`flex items-center ${isIconised ? 'justify-center' : 'justify-start'} px-4`}>
+      <ThemeToggle />
+    </div>
           </TooltipProvider>
         </nav>
 

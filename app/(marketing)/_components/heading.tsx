@@ -12,12 +12,11 @@ export const Heading = () => {
   return (
     <div className="max-w-3xl space-y-4 dark:text-amber-50">
       <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold">
-        {appName}: From <span className="italic text-amber-500">Words</span> to{" "}
-        <span className="text-red-500">Wonder</span>
+        {appName}: AI <span className="italic text-amber-500">Enhanced</span> {" "}
+        <span className="text-red-500">Gaming</span>
       </h1>
       <h2 className="text-base sm:text-xl md:text-2xl font-medium dark:text-amber-50">
-        Transform articles into beautiful, interactive, and engaging
-        experiences.
+A proof of concept 
       </h2>
       {isLoading && (
         <div className="w-full flex items-center justify-center">
@@ -34,9 +33,7 @@ export const Heading = () => {
             </Link>
           </Button>
 
-          <Link href={`/onboarding-01`}>
-            <span className="hover:text-secondary">Create New {appName} </span>
-          </Link>
+    
         </div>
       )}
 

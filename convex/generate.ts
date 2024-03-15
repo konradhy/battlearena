@@ -6,7 +6,7 @@ import {
   internalQuery,
 } from "./_generated/server";
 import { attack } from "./helpers";
-import { internal } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 
 export const announcerMessage = internalAction({
   args: {
@@ -20,6 +20,8 @@ export const announcerMessage = internalAction({
     mode: v.string(),
     id: v.id("battles"),
     previousMessage: v.string(),
+    attackerType: v.string(),
+    receiverType: v.string(),
   },
   handler: async (ctx, args) => {
     try {
@@ -30,9 +32,9 @@ export const announcerMessage = internalAction({
             role: "system",
             content: `You are an ancient and wise entity, observing the unfolding of countless supernatural battles through the aeons. Today, you've turned your attention to a new duel, one that vibrates with the echoes of ancient power and modern resolve. Your task is to narrate the clash between two extraordinary beings, providing insight into their actions, the flow of the battle, and the impact of their powers on the world around them. You are the Announcer, the voice that shapes the narrative of this battle. 
 
-Character 1: ${args.attacker}. Currently at ${args.attackerHealth} health out of a maximum of ${args.attackerMaxHealth}
+Character 1: ${args.attacker}. Currently at ${args.attackerHealth} health out of a maximum of ${args.attackerMaxHealth}. who is type ${args.attackerType}
 
-Character 2: ${args.receiver}., who is type snow. Currently stands at ${args.receiverHealth} health out of a total of ${args.receiverMaxHealth}
+Character 2: ${args.receiver}., who is type ${args.receiverType}. Currently stands at ${args.receiverHealth} health out of a total of ${args.receiverMaxHealth}
 
 The air crackles with anticipation as ${args.attacker} launches an attack using their ${args.mode}, a move renowned across dimensions for its nature.
 
@@ -83,6 +85,8 @@ export const question = internalAction({
 
         model: "gpt-3.5-turbo-1106",
         max_tokens: 100,
+
+        temperature: 2,
       });
 
       const question = completion.choices[0].message.content;
@@ -161,3 +165,114 @@ export const answerQuestion = internalAction({
     }
   },
 });
+
+
+export const selectMove = internalAction({
+  args:{
+    id: v.id("battles"),
+
+
+  }, handler: async (ctx, {id, }) => {
+
+    const battle = await ctx.runQuery(internal.battle.getBattleInternal, {id})
+    if(!battle){
+      throw new ConvexError({
+        message: "Error" + "No battle found",
+        severity: "low",
+      });
+    }
+
+    const attacker = await ctx.runQuery(internal.characters.getCharacterInternal, {id: battle.player1})
+    const receiver = await ctx.runQuery(internal.characters.getCharacterInternal, {id: battle.player2})
+
+    if(!attacker || !receiver){
+      throw new ConvexError({
+        message: "Error" + "No player found",
+        severity: "low",
+      });
+    }
+
+    try{
+      const openai = new OpenAI()
+      const completion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content: `You are a character in a battle. You have to make a move. You have three options: attack, special, heal. You have to make a choice. 
+            here are your stats:
+            Your health: ${attacker.health}
+            Your max health: ${attacker.maxHealth}
+            Your attack: ${attacker.attack}
+            Your defense: ${attacker.defense}
+            Your speed: ${attacker.speed}
+            Your luck: ${attacker.luck}
+            Your special attack: ${attacker.specialAttack}
+            Your special defense: ${attacker.specialDefense}
+            Your experience: ${attacker.experience}
+            Your type: ${attacker.type}
+
+            here are your opponents stats:
+            Their health: ${receiver.health}
+            Their max health: ${receiver.maxHealth}
+            Their attack: ${receiver.attack}
+            Their defense: ${receiver.defense}
+            Their speed: ${receiver.speed}
+            Their luck: ${receiver.luck}
+            Their special attack: ${receiver.specialAttack}
+            Their special defense: ${receiver.specialDefense}
+            Their experience: ${receiver.experience}
+                   Their type: ${receiver.type}
+
+ respond with a JSON object. It should have a key called move and a value of attack, special or heal. It should also have a key called rationale and a string explaining why you made the move.
+      
+         
+            `
+          }
+        ],
+        model: "gpt-3.5-turbo-1106",
+        max_tokens: 100,
+        response_format: {type: "json_object"},
+        temperature: 1,
+      })
+
+      const message = completion.choices[0].message.content
+      if(!message){
+        throw new ConvexError({
+          message: "Error" + "No message generated",
+          severity: "low",
+        });
+      }
+      //check if move is attack, special or heal
+
+   
+
+
+      const parsedMessage = JSON.parse(message) as {
+        move: string,
+        rationale: string
+      }
+
+      if (parsedMessage.move !== "attack" && parsedMessage.move !== "special" && parsedMessage.move !== "heal"){
+        console.log("message", parsedMessage)
+      parsedMessage.move = "attack"
+      }
+
+      console.log("message", message)
+
+      await ctx.runMutation(api.battle.setBattleSequence, {
+        id,
+        mode: parsedMessage.move,
+        turn: battle.turn,
+      })
+
+
+
+
+    }catch(e){
+      throw new ConvexError({
+        message: "Error" + e,
+        severity: "low",
+      });
+    }
+  }
+})

@@ -4,11 +4,11 @@
 Add the tooltip
 
 
-  THEN
-Button to play against AI
-GameOver to set the gameannoucer to say who won 
-
-`
+Types for the different characters 
+5 different characters data stored in a helper file
+characters randomly selected upon battle creation
+A new move called crit that will win you the game if your hp is below 25% and your Opponent is between 25% and 50%
+AI to be handled by an llm 
 
 
 */

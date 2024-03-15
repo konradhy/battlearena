@@ -7,6 +7,9 @@ import {
 } from "./_generated/server";
 import { wait, attack, specialAttack, heal } from "./helpers";
 import { internal } from "./_generated/api";
+import { CyberDrake, PixelWyrm, QuantumSphinx, DataGolem, ByteSerpent } from "./characterTemplate";
+
+
 
 export const getBattleDetails = query({
   args: {
@@ -78,13 +81,15 @@ export const setBattleSequence = mutation({
       moment: "start",
       mode,
       id,
+      attackerType: attacker.type,
+      receiverType: receiver.type,
     });
-    //break
+   
 
     const action =
       mode === "attack" ? attack : mode === "special" ? specialAttack : heal;
     const result = action({ attacker, receiver });
-    //await wait(1000); // Simulate action time
+
 
     if (mode === "heal") {
       attacker.health += result;
@@ -281,7 +286,7 @@ export const gameOver = mutation({
     player1.health = player1.maxHealth;
     player2.health = player2.maxHealth;
     battle.turn = 0;
-    battle.announcerMessage = "Nothing has happened yet";
+    battle.announcerMessage = "Game Over";
     battle.inSequence = false;
     battle.result = "over";
 
@@ -300,21 +305,31 @@ export const createBattle = mutation({
         severity: "low",
       });
     }
+    const characters = [CyberDrake, PixelWyrm, QuantumSphinx, DataGolem, ByteSerpent];
+    const selectRandomCharacter = () => {
+  const randomIndex = Math.floor(Math.random() * characters.length );
+  return characters[randomIndex];
+};
+const randomCharacter = selectRandomCharacter();
+const randomCharacter2 = selectRandomCharacter();
 
-    const player1 = await ctx.db.insert("players", {
-      level: 1,
-      health: 100,
-      maxHealth: 100,
-      attack: 10,
-      defense: 10,
-      speed: 10,
-      luck: 10,
-      specialAttack: 40,
-      specialDefense: 10,
-      experience: 0,
-      name: "Malignant Tiger",
-      userId: identity.subject,
-    });
+ const player1 = await ctx.db.insert("characters", {
+  level: randomCharacter2.level,
+  health: randomCharacter2.health,
+  maxHealth: randomCharacter2.maxHealth,
+  attack: randomCharacter2.attack,
+  defense: randomCharacter2.defense,
+  speed: randomCharacter2.speed,
+  luck: randomCharacter2.luck,
+  specialAttack: randomCharacter2.specialAttack,
+  specialDefense: randomCharacter2.specialDefense,
+  experience: randomCharacter2.experience,
+  name: randomCharacter2.name,
+  userId: identity.subject,
+  type: randomCharacter2.type,
+  image: randomCharacter2.image
+});
+
 
     if (!player1) {
       throw new ConvexError({
@@ -323,20 +338,24 @@ export const createBattle = mutation({
       });
     }
 
-    const player2 = await ctx.db.insert("players", {
-      level: 1,
-      health: 100,
-      maxHealth: 100,
-      attack: 10,
-      defense: 10,
-      speed: 10,
-      luck: 10,
-      specialAttack: 40,
-      specialDefense: 10,
-      experience: 0,
-      name: "Sneaky Snake",
-      userId: "unassigned",
-    });
+    
+ const player2 = await ctx.db.insert("characters", {
+  level: randomCharacter.level,
+  health: randomCharacter.health,
+  maxHealth: randomCharacter.maxHealth,
+  attack: randomCharacter.attack,
+  defense: randomCharacter.defense,
+  speed: randomCharacter.speed,
+  luck: randomCharacter.luck,
+  specialAttack: randomCharacter.specialAttack,
+  specialDefense: randomCharacter.specialDefense,
+  experience: randomCharacter.experience,
+  name: randomCharacter.name,
+  userId: "unassigned",
+  type: randomCharacter.type,
+  image: randomCharacter.image
+});
+
     if (!player2) {
       throw new ConvexError({
         message: "Player not found",
@@ -375,6 +394,7 @@ export const listBattles = query({
     const battles = await ctx.db
       .query("battles")
       .filter((q) => q.eq(q.field("result"), "pending"))
+      .order("desc")
       .collect();
 
     return battles;
@@ -400,3 +420,48 @@ export const joinBattle = mutation({
     await ctx.db.patch(id, battle);
   },
 });
+
+export const battleAi = mutation({
+  args: {
+    id: v.id("battles"),
+
+  },
+  handler: async (ctx, { id,  }) => {
+    const battle = await ctx.db.get(id);
+    if (!battle) {
+      throw new ConvexError({
+        message: "Battle not found",
+        severity: "low",
+      });
+    }
+    battle.challenger = "AI";
+    battle.aiBattle = true;
+    battle.result = "inProgress";
+    await ctx.db.patch(id, battle);
+  },
+});
+
+
+export const getBattleInternal = internalQuery({
+  args: {
+    id: v.id("battles"),
+  },
+  handler: async (ctx, { id }) => {
+      
+
+    const battle = await ctx.db.get(id);
+    return battle;
+  },
+});
+
+export const selectAiMove = mutation({
+  args:{
+    id: v.id("battles"),
+  },
+  handler: async (ctx, {id, }) => {
+
+    await ctx.scheduler.runAfter(0, internal.generate.selectMove,{
+      id,
+    })
+  }
+})

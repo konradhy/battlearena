@@ -15,9 +15,10 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as battle from "../battle.js";
+import type * as characterTemplate from "../characterTemplate.js";
+import type * as characters from "../characters.js";
 import type * as generate from "../generate.js";
 import type * as helpers from "../helpers.js";
-import type * as players from "../players.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,9 +30,10 @@ import type * as players from "../players.js";
  */
 declare const fullApi: ApiFromModules<{
   battle: typeof battle;
+  characterTemplate: typeof characterTemplate;
+  characters: typeof characters;
   generate: typeof generate;
   helpers: typeof helpers;
-  players: typeof players;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

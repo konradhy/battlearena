@@ -1,10 +1,11 @@
 import { v, ConvexError } from "convex/values";
 import { internalQuery, mutation, query } from "./_generated/server";
 import { Id } from "./_generated/dataModel";
+import { internal } from "./_generated/api";
 
 export const getPlayerById = query({
   args: {
-    id: v.id("players"),
+    id: v.id("characters"),
   },
   handler: async (ctx, { id }) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -16,29 +17,43 @@ export const getPlayerById = query({
       });
     }
 
-    const player = await ctx.db.get(id);
-    return player;
+    const character = await ctx.db.get(id);
+    return character;
   },
 });
 
 export const handleAttack = mutation({
   args: {
-    id: v.id("players"),
+    id: v.id("characters"),
     result: v.number(),
   },
   handler: async (ctx, { id, result }) => {
-    const player = await ctx.db.get(id);
+    const character = await ctx.db.get(id);
 
-    if (!player) {
+    if (!character) {
       throw new ConvexError({
         message: "Player not found",
         severity: "low",
       });
     }
 
-    player.health -= result;
-    await ctx.db.patch(id, player);
+    character.health -= result;
+    await ctx.db.patch(id, character);
 
-    return player;
+    return character;
+  },
+});
+
+
+
+export const getCharacterInternal = internalQuery({
+  args: {
+    id: v.id("characters"),
+  },
+  handler: async (ctx, { id }) => {
+
+
+    const character = await ctx.db.get(id);
+    return character;
   },
 });

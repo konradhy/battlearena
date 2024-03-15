@@ -17,7 +17,7 @@ export const TriviaModal = () => {
 
   const [answer, setAnswer] = useState("");
   const [difficulty, setDifficulty] = useState("easy");
-  const [topic, setTopic] = useState("react the programming language");
+  const [topic, setTopic] = useState("World Capitals");
 
   const triviaAnswer = useMutation(api.battle.answerTrivia);
   const generateQuestion = useMutation(api.battle.generateQuestion);

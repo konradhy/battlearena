@@ -4,13 +4,13 @@ import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Doc } from "@/convex/_generated/dataModel";
 
-interface JoinBattleProps {
+interface BattleAiProps {
   battle: Doc<"battles"> | null | undefined;
 }
 
-export const JoinBattle = ({ battle }: JoinBattleProps) => {
+export const BattleAi = ({ battle }: BattleAiProps) => {
     const user = useUser();
-    const joinBattle = useMutation(api.battle.joinBattle);
+    const battleAi = useMutation(api.battle.battleAi);
 
     if (!battle) {
         console.log("No battle data");
@@ -18,9 +18,9 @@ export const JoinBattle = ({ battle }: JoinBattleProps) => {
     }
 
     const handleClick = () => {
-        joinBattle({id: battle._id, challenger: user.user?.firstName || "anon"});
+        battleAi({id: battle._id});
     };
-       if (battle.challenger || battle.creatorEmail === user.user?.primaryEmailAddress?.emailAddress) {
+       if (battle.challenger || battle.creatorEmail !== user.user?.primaryEmailAddress?.emailAddress) {
         return null;
     }
 
@@ -29,7 +29,8 @@ export const JoinBattle = ({ battle }: JoinBattleProps) => {
     return (
         <>
             <Button 
-            onClick={handleClick}>Join Battle</Button>
+            
+            onClick={handleClick}>BattleAi</Button>
          
         </>
     );

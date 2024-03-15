@@ -11,10 +11,6 @@ import { Spinner } from "@/components/spinner";
 import Link from "next/link";
 import { appName } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -45,10 +41,7 @@ export const Navbar = () => {
             <Button variant="ghost" size="sm" asChild>
               <Link href="/dashboard">Enter {`${appName}`}</Link>
             </Button>
-            <Link href={`/onboarding-01`}>
-              <Button size="sm">Create New {appName} </Button>
-            </Link>
-
+      
             <UserButton afterSignOutUrl="/" />
           </>
         )}

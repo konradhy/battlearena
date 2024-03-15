@@ -11,8 +11,8 @@ export const attack = ({
   attacker,
   receiver,
 }: {
-  attacker: Doc<"players">;
-  receiver: Doc<"players">;
+  attacker: Doc<"characters">;
+  receiver: Doc<"characters">;
 }) => {
   const receivedDamage =
     attacker.attack - (attacker.level - receiver.level) * 1.25;
@@ -25,8 +25,8 @@ export const specialAttack = ({
   attacker,
   receiver,
 }: {
-  attacker: Doc<"players">;
-  receiver: Doc<"players">;
+  attacker: Doc<"characters">;
+  receiver: Doc<"characters">;
 }) => {
   const receivedDamage =
     attacker.specialAttack - (attacker.level - receiver.level) * 1.25;
@@ -39,8 +39,9 @@ export const heal = ({
   attacker,
   receiver,
 }: {
-  attacker: Doc<"players">;
-  receiver: Doc<"players">;
+  attacker: Doc<"characters">;
+  receiver: Doc<"characters">;
 }) => {
   return receiver.specialAttack - attacker.specialDefense / 2;
 };
+
