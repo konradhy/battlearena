@@ -18,9 +18,8 @@ export const Logo = () => {
         alt={`The logo for ${appName}- for content creators and publishers.`}
         height="40"
         width="40"
-    
       />
-     
+
       <p className={cn("font-semibold", font.className)}>{`${appName}`}</p>
     </div>
   );

@@ -110,11 +110,6 @@ export const question = internalAction({
   },
 });
 
-//will take a look at a question and an answer
-//it will then determine if the answer is correct using gpt.3.5
-//will use json mode and return an object with the result which is a boolean of true if correct and false if wrong
-//will also return rationale which is the reason why the answer is correct or wrong
-
 export const answerQuestion = internalAction({
   args: {
     id: v.id("battles"),
@@ -166,34 +161,39 @@ export const answerQuestion = internalAction({
   },
 });
 
-
 export const selectMove = internalAction({
-  args:{
+  args: {
     id: v.id("battles"),
-
-
-  }, handler: async (ctx, {id, }) => {
-
-    const battle = await ctx.runQuery(internal.battle.getBattleInternal, {id})
-    if(!battle){
+  },
+  handler: async (ctx, { id }) => {
+    const battle = await ctx.runQuery(internal.battle.getBattleInternal, {
+      id,
+    });
+    if (!battle) {
       throw new ConvexError({
         message: "Error" + "No battle found",
         severity: "low",
       });
     }
 
-    const attacker = await ctx.runQuery(internal.characters.getCharacterInternal, {id: battle.player1})
-    const receiver = await ctx.runQuery(internal.characters.getCharacterInternal, {id: battle.player2})
+    const attacker = await ctx.runQuery(
+      internal.characters.getCharacterInternal,
+      { id: battle.player1 },
+    );
+    const receiver = await ctx.runQuery(
+      internal.characters.getCharacterInternal,
+      { id: battle.player2 },
+    );
 
-    if(!attacker || !receiver){
+    if (!attacker || !receiver) {
       throw new ConvexError({
         message: "Error" + "No player found",
         severity: "low",
       });
     }
 
-    try{
-      const openai = new OpenAI()
+    try {
+      const openai = new OpenAI();
       const completion = await openai.chat.completions.create({
         messages: [
           {
@@ -226,53 +226,49 @@ export const selectMove = internalAction({
  respond with a JSON object. It should have a key called move and a value of attack, special or heal. It should also have a key called rationale and a string explaining why you made the move.
       
          
-            `
-          }
+            `,
+          },
         ],
         model: "gpt-3.5-turbo-1106",
         max_tokens: 100,
-        response_format: {type: "json_object"},
+        response_format: { type: "json_object" },
         temperature: 1,
-      })
+      });
 
-      const message = completion.choices[0].message.content
-      if(!message){
+      const message = completion.choices[0].message.content;
+      if (!message) {
         throw new ConvexError({
           message: "Error" + "No message generated",
           severity: "low",
         });
       }
-      //check if move is attack, special or heal
-
-   
-
 
       const parsedMessage = JSON.parse(message) as {
-        move: string,
-        rationale: string
+        move: string;
+        rationale: string;
+      };
+
+      if (
+        parsedMessage.move !== "attack" &&
+        parsedMessage.move !== "special" &&
+        parsedMessage.move !== "heal"
+      ) {
+        console.log("message", parsedMessage);
+        parsedMessage.move = "attack";
       }
 
-      if (parsedMessage.move !== "attack" && parsedMessage.move !== "special" && parsedMessage.move !== "heal"){
-        console.log("message", parsedMessage)
-      parsedMessage.move = "attack"
-      }
-
-      console.log("message", message)
+      console.log("message", message);
 
       await ctx.runMutation(api.battle.setBattleSequence, {
         id,
         mode: parsedMessage.move,
         turn: battle.turn,
-      })
-
-
-
-
-    }catch(e){
+      });
+    } catch (e) {
       throw new ConvexError({
         message: "Error" + e,
         severity: "low",
       });
     }
-  }
-})
+  },
+});

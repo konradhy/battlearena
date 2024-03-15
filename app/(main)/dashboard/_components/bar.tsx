@@ -1,4 +1,3 @@
-
 import { Progress } from "@/components/ui/progress";
 
 interface BarProps {
@@ -8,7 +7,6 @@ interface BarProps {
 }
 
 export const Bar = ({ value, maxValue, label }: BarProps) => {
-  
   const colorClass = (label: string) => {
     switch (label) {
       case "health":
@@ -18,15 +16,11 @@ export const Bar = ({ value, maxValue, label }: BarProps) => {
       case "experience":
         return "bg-green-500";
       default:
-        return "bg-black"; 
+        return "bg-black";
     }
   };
 
   return (
-    <Progress
-      value={value}
-      max={maxValue}
-      className={colorClass(label)} 
-    />
+    <Progress value={value} max={maxValue} className={colorClass(label)} />
   );
 };

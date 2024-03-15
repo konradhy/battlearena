@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useEffect,  } from "react";
+import { useEffect } from "react";
 import { PlayerDetails } from "../_components/player-details";
 import { BattleMenu } from "../_components/battle-menu";
 import { BattleAnnouncer } from "../_components/battle-announcer";
@@ -16,10 +16,7 @@ import { BattleAi } from "../_components/battle-ai";
 export default function BattlePage() {
   const params = useParams();
   const battleId = params.battleId;
-
-
   const { onOpen } = useTrivia();
-
   const battleDetails = useQuery(api.battle.getBattleDetails, {
     id: battleId as Id<"battles">,
   });
@@ -31,7 +28,7 @@ export default function BattlePage() {
     api.characters.getPlayerById,
     battleDetails?.player2 ? { id: battleDetails?.player2 } : "skip",
   );
-  const turn  = battleDetails?.turn || 0;
+  const turn = battleDetails?.turn || 0;
   const inSequence = battleDetails?.inSequence;
 
   const setSequenceMutation = useMutation(api.battle.setBattleSequence);
@@ -46,55 +43,53 @@ export default function BattlePage() {
     });
   };
 
-
-
-
   //ai player
   useEffect(() => {
-    if(battleDetails?.aiBattle){
-    if ( turn === 1 && !inSequence) {
-      selectAiMove({
-        id: battleId as Id<"battles">,
-   
-      });
-
+    if (battleDetails?.aiBattle) {
+      if (turn === 1 && !inSequence) {
+        selectAiMove({
+          id: battleId as Id<"battles">,
+        });
+      }
     }
-  }
-  }, [turn, inSequence, ]);
-
+  }, [turn, inSequence]);
 
   useEffect(() => {
-    if(!player1Details || !player2Details){
+    if (!player1Details || !player2Details) {
       return;
     }
-    if (player1Details.health   < 0 || player2Details.health  < 0) {
+    if (player1Details.health < 0 || player2Details.health < 0) {
       (async () => {
-        
-        toast.message(`Game Over, the battle has ended. The winner is ${player1Details.health < 0 ? "Player 2" : "Player 1"}`);
-          await wait(5000);
+        toast.message(
+          `Game Over, the battle has ended. The winner is ${player1Details.health < 0 ? "Player 2" : "Player 1"}`,
+        );
+        await wait(5000);
         gameOver({
-           id: battleId as Id<"battles">,
+          id: battleId as Id<"battles">,
         });
       })();
     }
   }, [player1Details?.health, player2Details?.health, gameOver, battleId]);
 
-
-  if(!battleDetails){
-    return <div>Loading...</div>
+  if (!battleDetails) {
+    return <div>Loading...</div>;
   }
 
- 
+  if (battleDetails.result === "over") {
+    return (
+      <div
+        style={{
+          textAlign: "center",
+          fontSize: "1.2rem",
+          fontWeight: "bold",
+          padding: "20px",
+        }}
+      >
+        Game Over. The battle has ended. Please start a new game.
+      </div>
+    );
+  }
 
- if (battleDetails.result === "over") {
-  return (
-    <div style={{ textAlign: "center", fontSize: "1.2rem", fontWeight: "bold", padding: "20px" }}>
-      Game Over. The battle has ended. Please start a new game.
-    </div>
-  );
-}
-
- 
   return (
     <div
       className="min-h-screen bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center"
@@ -104,32 +99,24 @@ export default function BattlePage() {
         <div className="flex flex-col items-center">
           <PlayerDetails player={player1Details} />
 
-          {!inSequence &&battleDetails.challenger && turn === 0 ? (
+          {!inSequence && battleDetails.challenger && turn === 0 ? (
             <BattleMenu
               onSpecial={() => onOpen(battleId as Id<"battles">, turn)}
               onAttack={() => handleAction("attack")}
               onHeal={() => handleAction("heal")}
             />
-          ):(
+          ) : (
             <div className="w-96 h-40  bg-opacity-80 bg-gray-800 text-white rounded-lg shadow-xl">
-            <div className="p-4">
-              <ul className="list-none space-y-2">
-                <li
-                  className=" p-2 rounded-md"
-                >
-                  waiting...
-                </li>
-          
-              </ul>
+              <div className="p-4">
+                <ul className="list-none space-y-2">
+                  <li className=" p-2 rounded-md">waiting...</li>
+                </ul>
+              </div>
             </div>
-          </div>
-
-          )
-          
-          }
+          )}
 
           <img
-            src={player1Details?.image }
+            src={player1Details?.image}
             alt="Player 1"
             className="mt-4 w-72 h-64 object-cover"
           />
@@ -138,41 +125,30 @@ export default function BattlePage() {
           message={battleDetails?.announcerMessage || "What will happen next?"}
         />
 
-       <div className="m-4">
-        <JoinBattle battle={battleDetails} />
-        <BattleAi battle={battleDetails} />
+        <div className="m-4">
+          <JoinBattle battle={battleDetails} />
+          <BattleAi battle={battleDetails} />
         </div>
-
-
-
         <div className="flex flex-col items-center">
           <PlayerDetails player={player2Details} />
 
-           {!inSequence && turn === 1 ? (
+          {!inSequence && turn === 1 ? (
             <BattleMenu
               onSpecial={() => onOpen(battleId as Id<"battles">, turn)}
               onAttack={() => handleAction("attack")}
               onHeal={() => handleAction("heal")}
             />
-          ):(
+          ) : (
             <div className="w-96 h-40 bg-opacity-80 bg-gray-800 text-white rounded-lg shadow-xl">
-            <div className="p-4">
-              <ul className="list-none space-y-2">
-                <li
-                  className=" p-2 rounded-md"
-                >
-                  waiting...
-                </li>
-          
-              </ul>
+              <div className="p-4">
+                <ul className="list-none space-y-2">
+                  <li className=" p-2 rounded-md">waiting...</li>
+                </ul>
+              </div>
             </div>
-          </div>
-
-          )
-          
-          }
+          )}
           <img
-             src={player2Details?.image }
+            src={player2Details?.image}
             alt="Player 2"
             className="mt-10 w-72 h-64 object-cover"
           />

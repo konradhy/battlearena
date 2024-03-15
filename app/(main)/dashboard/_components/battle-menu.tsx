@@ -1,8 +1,4 @@
-import {
-  Card,
-  CardContent,
-
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const BattleMenu = ({ onAttack, onSpecial, onHeal }: any) => {
   return (

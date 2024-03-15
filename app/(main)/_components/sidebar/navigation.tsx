@@ -1,9 +1,15 @@
-
 "use client";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { ChevronsLeft, GripVertical, MenuIcon, Bot, Sword, Shield } from "lucide-react";
+import {
+  ChevronsLeft,
+  GripVertical,
+  MenuIcon,
+  Bot,
+  Sword,
+  Shield,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { NavLink, initialTopLinks } from "./navigation-links";
@@ -19,7 +25,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 export const Navigation = () => {
   const router = useRouter();
   //hooks
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { isOpen, onClose, onOpen } = useSearch();
 
@@ -180,12 +186,13 @@ export const Navigation = () => {
                   variant: "ghost",
                   onClick: onOpen,
                 },
-              
               ]}
             />
-          <div className={`flex items-center ${isIconised ? 'justify-center' : 'justify-start'} px-4`}>
-      <ThemeToggle />
-    </div>
+            <div
+              className={`flex items-center ${isIconised ? "justify-center" : "justify-start"} px-4`}
+            >
+              <ThemeToggle />
+            </div>
           </TooltipProvider>
         </nav>
 

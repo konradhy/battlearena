@@ -44,15 +44,11 @@ export const handleAttack = mutation({
   },
 });
 
-
-
 export const getCharacterInternal = internalQuery({
   args: {
     id: v.id("characters"),
   },
   handler: async (ctx, { id }) => {
-
-
     const character = await ctx.db.get(id);
     return character;
   },

@@ -1,14 +1,6 @@
 "use client";
 
-
-import {
-
-  Home,
-
-
-  LucideIcon,
-
-} from "lucide-react";
+import { Home, LucideIcon } from "lucide-react";
 
 export interface NavLink {
   title: string;
@@ -29,5 +21,4 @@ export let initialTopLinks: NavLink[] = [
     link: "/dashboard",
     name: "dashboard",
   },
-
 ];

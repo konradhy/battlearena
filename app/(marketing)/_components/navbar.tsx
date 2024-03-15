@@ -39,7 +39,7 @@ export const Navbar = () => {
             <Button variant="ghost" size="sm" asChild>
               <Link href="/dashboard">Enter {`${appName}`}</Link>
             </Button>
-      
+
             <UserButton afterSignOutUrl="/" />
           </>
         )}

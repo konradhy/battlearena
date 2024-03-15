@@ -1,14 +1,7 @@
 "use client";
 
-
 import { Doc } from "@/convex/_generated/dataModel";
-
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bar } from "./bar";
 
 interface PlayerDetailsProps {
@@ -36,10 +29,6 @@ export const PlayerDetails = ({ player }: PlayerDetailsProps) => {
             label="health"
           />
         </div>
-
-     
-
-   
       </CardContent>
     </Card>
   );

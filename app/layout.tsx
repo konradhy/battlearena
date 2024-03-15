@@ -10,8 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: `${appName}`,
-  description:
-    "Gaming enhanced by AI. A proof of concept. Play now.",
+  description: "Gaming enhanced by AI. A proof of concept. Play now.",
   icons: {
     icon: [
       {

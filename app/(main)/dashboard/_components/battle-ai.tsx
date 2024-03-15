@@ -9,25 +9,27 @@ interface BattleAiProps {
 }
 
 export const BattleAi = ({ battle }: BattleAiProps) => {
-    const user = useUser();
-    const battleAi = useMutation(api.battle.battleAi);
+  const user = useUser();
+  const battleAi = useMutation(api.battle.battleAi);
 
-    if (!battle) {
-        console.log("No battle data");
-        return null; 
-    }
+  if (!battle) {
+    console.log("No battle data");
+    return null;
+  }
 
-    const handleClick = () => {
-        battleAi({id: battle._id});
-    };
-       if (battle.challenger || battle.creatorEmail !== user.user?.primaryEmailAddress?.emailAddress) {
-        return null;
-    }
+  const handleClick = () => {
+    battleAi({ id: battle._id });
+  };
+  if (
+    battle.challenger ||
+    battle.creatorEmail !== user.user?.primaryEmailAddress?.emailAddress
+  ) {
+    return null;
+  }
 
-    return (
-        <>
-            <Button  onClick={handleClick}>BattleAi</Button>
-         
-        </>
-    );
+  return (
+    <>
+      <Button onClick={handleClick}>BattleAi</Button>
+    </>
+  );
 };

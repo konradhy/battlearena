@@ -7,9 +7,13 @@ import {
 } from "./_generated/server";
 import { wait, attack, specialAttack, heal } from "./helpers";
 import { internal } from "./_generated/api";
-import { CyberDrake, PixelWyrm, QuantumSphinx, DataGolem, ByteSerpent } from "./characterTemplate";
-
-
+import {
+  CyberDrake,
+  PixelWyrm,
+  QuantumSphinx,
+  DataGolem,
+  ByteSerpent,
+} from "./characterTemplate";
 
 export const getBattleDetails = query({
   args: {
@@ -84,12 +88,10 @@ export const setBattleSequence = mutation({
       attackerType: attacker.type,
       receiverType: receiver.type,
     });
-   
 
     const action =
       mode === "attack" ? attack : mode === "special" ? specialAttack : heal;
     const result = action({ attacker, receiver });
-
 
     if (mode === "heal") {
       attacker.health += result;
@@ -262,7 +264,6 @@ export const setTriviaResult = internalMutation({
   },
 });
 
-
 export const gameOver = mutation({
   args: {
     id: v.id("battles"),
@@ -305,31 +306,36 @@ export const createBattle = mutation({
         severity: "low",
       });
     }
-    const characters = [CyberDrake, PixelWyrm, QuantumSphinx, DataGolem, ByteSerpent];
+    const characters = [
+      CyberDrake,
+      PixelWyrm,
+      QuantumSphinx,
+      DataGolem,
+      ByteSerpent,
+    ];
     const selectRandomCharacter = () => {
-  const randomIndex = Math.floor(Math.random() * characters.length );
-  return characters[randomIndex];
-};
-const randomCharacter = selectRandomCharacter();
-const randomCharacter2 = selectRandomCharacter();
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      return characters[randomIndex];
+    };
+    const randomCharacter = selectRandomCharacter();
+    const randomCharacter2 = selectRandomCharacter();
 
- const player1 = await ctx.db.insert("characters", {
-  level: randomCharacter2.level,
-  health: randomCharacter2.health,
-  maxHealth: randomCharacter2.maxHealth,
-  attack: randomCharacter2.attack,
-  defense: randomCharacter2.defense,
-  speed: randomCharacter2.speed,
-  luck: randomCharacter2.luck,
-  specialAttack: randomCharacter2.specialAttack,
-  specialDefense: randomCharacter2.specialDefense,
-  experience: randomCharacter2.experience,
-  name: randomCharacter2.name,
-  userId: identity.subject,
-  type: randomCharacter2.type,
-  image: randomCharacter2.image
-});
-
+    const player1 = await ctx.db.insert("characters", {
+      level: randomCharacter2.level,
+      health: randomCharacter2.health,
+      maxHealth: randomCharacter2.maxHealth,
+      attack: randomCharacter2.attack,
+      defense: randomCharacter2.defense,
+      speed: randomCharacter2.speed,
+      luck: randomCharacter2.luck,
+      specialAttack: randomCharacter2.specialAttack,
+      specialDefense: randomCharacter2.specialDefense,
+      experience: randomCharacter2.experience,
+      name: randomCharacter2.name,
+      userId: identity.subject,
+      type: randomCharacter2.type,
+      image: randomCharacter2.image,
+    });
 
     if (!player1) {
       throw new ConvexError({
@@ -338,23 +344,22 @@ const randomCharacter2 = selectRandomCharacter();
       });
     }
 
-    
- const player2 = await ctx.db.insert("characters", {
-  level: randomCharacter.level,
-  health: randomCharacter.health,
-  maxHealth: randomCharacter.maxHealth,
-  attack: randomCharacter.attack,
-  defense: randomCharacter.defense,
-  speed: randomCharacter.speed,
-  luck: randomCharacter.luck,
-  specialAttack: randomCharacter.specialAttack,
-  specialDefense: randomCharacter.specialDefense,
-  experience: randomCharacter.experience,
-  name: randomCharacter.name,
-  userId: "unassigned",
-  type: randomCharacter.type,
-  image: randomCharacter.image
-});
+    const player2 = await ctx.db.insert("characters", {
+      level: randomCharacter.level,
+      health: randomCharacter.health,
+      maxHealth: randomCharacter.maxHealth,
+      attack: randomCharacter.attack,
+      defense: randomCharacter.defense,
+      speed: randomCharacter.speed,
+      luck: randomCharacter.luck,
+      specialAttack: randomCharacter.specialAttack,
+      specialDefense: randomCharacter.specialDefense,
+      experience: randomCharacter.experience,
+      name: randomCharacter.name,
+      userId: "unassigned",
+      type: randomCharacter.type,
+      image: randomCharacter.image,
+    });
 
     if (!player2) {
       throw new ConvexError({
@@ -368,7 +373,13 @@ const randomCharacter2 = selectRandomCharacter();
       result: "pending",
       turn: 0,
       inSequence: false,
-      createdBy: identity.preferredUsername || identity.nickname || identity.givenName || identity.name || identity.email || "Anonymous",
+      createdBy:
+        identity.preferredUsername ||
+        identity.nickname ||
+        identity.givenName ||
+        identity.name ||
+        identity.email ||
+        "Anonymous",
       announcerMessage: "Nothing has happened yet",
       trivia: undefined,
       triviaResult: undefined,
@@ -401,7 +412,6 @@ export const listBattles = query({
   },
 });
 
-
 export const joinBattle = mutation({
   args: {
     id: v.id("battles"),
@@ -416,7 +426,7 @@ export const joinBattle = mutation({
       });
     }
     battle.challenger = challenger;
-        battle.result = "inProgress";
+    battle.result = "inProgress";
     await ctx.db.patch(id, battle);
   },
 });
@@ -424,9 +434,8 @@ export const joinBattle = mutation({
 export const battleAi = mutation({
   args: {
     id: v.id("battles"),
-
   },
-  handler: async (ctx, { id,  }) => {
+  handler: async (ctx, { id }) => {
     const battle = await ctx.db.get(id);
     if (!battle) {
       throw new ConvexError({
@@ -441,27 +450,23 @@ export const battleAi = mutation({
   },
 });
 
-
 export const getBattleInternal = internalQuery({
   args: {
     id: v.id("battles"),
   },
   handler: async (ctx, { id }) => {
-      
-
     const battle = await ctx.db.get(id);
     return battle;
   },
 });
 
 export const selectAiMove = mutation({
-  args:{
+  args: {
     id: v.id("battles"),
   },
-  handler: async (ctx, {id, }) => {
-
-    await ctx.scheduler.runAfter(0, internal.generate.selectMove,{
+  handler: async (ctx, { id }) => {
+    await ctx.scheduler.runAfter(0, internal.generate.selectMove, {
       id,
-    })
-  }
-})
+    });
+  },
+});

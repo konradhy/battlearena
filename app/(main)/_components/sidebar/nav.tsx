@@ -42,7 +42,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                     buttonVariants({ variant: link.variant, size: "icon" }),
                     "h-9 w-9",
                     link.variant === "default" &&
-                      "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                      "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white",
                   )}
                 >
                   <link.icon className="h-4 w-4" />
@@ -66,19 +66,20 @@ export function Nav({ links, isCollapsed }: NavProps) {
             <Link
               onClick={() => link.onClick && link.onClick()}
               key={index}
-                  href={link.link || "#"}
+              href={link.link || "#"}
               className={cn(
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "default" &&
                   "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                "justify-start"
+                "justify-start",
               )}
             >
               <link.icon className="mr-2 h-4 w-4" />
               {link.title}
               {link.hotkey && (
                 <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                  <span className="text-xs">⌘</span>{link.hotkey}
+                  <span className="text-xs">⌘</span>
+                  {link.hotkey}
                 </kbd>
               )}
               {link.label && (
@@ -86,14 +87,14 @@ export function Nav({ links, isCollapsed }: NavProps) {
                   className={cn(
                     "ml-auto",
                     link.variant === "default" &&
-                      "text-background dark:text-white"
+                      "text-background dark:text-white",
                   )}
                 >
                   {link.label}
                 </span>
               )}
             </Link>
-          )
+          ),
         )}
       </nav>
     </div>
