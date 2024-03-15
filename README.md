@@ -22,4 +22,4 @@ To deploy this project on Vercel, you'll need to set up accounts and obtain keys
 - **Convex**: To store and manage game data in a real-time database. [Create a Convex account](https://www.convex.dev).
 - **OpenAI**: To access AI models for text generation and learning components. [Get your OpenAI API Key](https://openai.com).
 
-Don't forget to star this repo if you found it interesting
+Don't forget to star this repo if you found it interesting 
