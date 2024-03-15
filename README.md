@@ -4,7 +4,7 @@
 
 A turn-based multiplayer game where you fight against AI or challenge a friend.
 
-This project showcases the integration of gaming with artificial intelligence (AI) to enhance the user experience and game functionality. My goal was to explore three ways gaming can elevate AI's capabilities:
+This project showcases the integration of gaming with artificial intelligence (AI) to enhance the user experience and game functionality. My goal was to explore three ways AI can elevate gaming:
 
 ## NPC Behavior Control
 
