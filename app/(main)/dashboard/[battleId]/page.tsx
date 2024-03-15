@@ -1,13 +1,10 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect,  } from "react";
-
 import { PlayerDetails } from "../_components/player-details";
 import { BattleMenu } from "../_components/battle-menu";
 import { BattleAnnouncer } from "../_components/battle-announcer";
 import { wait } from "@/shared/helpers";
-
-
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -146,8 +143,7 @@ export default function BattlePage() {
         <BattleAi battle={battleDetails} />
         </div>
 
-       
-        
+
 
         <div className="flex flex-col items-center">
           <PlayerDetails player={player2Details} />

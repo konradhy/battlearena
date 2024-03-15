@@ -1,37 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Project Overview
 
-## Getting Started
+This project showcases the integration of gaming with artificial intelligence (AI) to enhance the user experience and game functionality. My goal was to explore three  ways gaming can elevate AI's capabilities:
 
-First, run the development server:
+## NPC Behavior Control
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Utilizing AI to dynamically control Non-Player Character (NPC) behavior, making the game environment more interactive and engaging.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Dynamic Text Generation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Leveraging AI to generate unique and custom text responses based on the current state of the game, enriching the storytelling and player immersion.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Learning and Incentivization
 
-## Learn More
+- Introducing a learning component within the game that incentivizes positive gaming habits and strategies through AI-driven feedback and rewards.
 
-To learn more about Next.js, take a look at the following resources:
+# Deployment on Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To deploy this project on Vercel, you'll need to set up accounts and obtain keys from the following services:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# textsavvy-ai
+- **Clerk**: For user authentication and management. [Sign up for Clerk](https://clerk.dev).
+- **Convex**: To store and manage game data in a real-time database. [Create a Convex account](https://www.convex.dev).
+- **OpenAI**: To access AI models for text generation and learning components. [Get your OpenAI API Key](https://openai.com).

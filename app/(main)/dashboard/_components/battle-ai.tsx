@@ -24,13 +24,9 @@ export const BattleAi = ({ battle }: BattleAiProps) => {
         return null;
     }
 
- 
-
     return (
         <>
-            <Button 
-            
-            onClick={handleClick}>BattleAi</Button>
+            <Button  onClick={handleClick}>BattleAi</Button>
          
         </>
     );

@@ -9,7 +9,7 @@ export const Heroes = () => {
         <Image
           src="/marketing/hero.svg"
           fill
-          alt={appName + " platform for transforming articles into illustrative stories"}
+          alt={appName + " an ai faming proof of concept"}
           className="object-contain"
         />
       </div>
