@@ -91,7 +91,9 @@ export const TriviaModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>Trivia</DialogHeader>
+        <DialogHeader>
+          Learning Incentive - Power-up your attack by answering a question
+        </DialogHeader>
         {!battle.triviaRationale && (
           <>
             {!battle.trivia ? (
